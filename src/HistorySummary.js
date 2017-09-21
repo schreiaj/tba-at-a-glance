@@ -2,8 +2,6 @@ import React from 'react';
 
 import {nest} from 'd3-collection';
 
-import ordinal from 'ordinal';
-
 import './HistorySummary.css';
 
 let HistorySummary = ({team, events, eventResults}) => {
@@ -32,7 +30,7 @@ let HistorySummary = ({team, events, eventResults}) => {
 				<span>SF</span><span className='legend sf'/>
 				<span>F</span><span className='legend f'/>
 				<span>W</span><span className='legend won'/>
-				<div> *For events without selection data we merely note if a team played </div>
+				<div> *No selection data available for this event </div>
 
 			</div>
 
@@ -60,9 +58,9 @@ const EventSummary = ({eventKey, eventResults}) => {
 		if(results) {
 			let {playoff, alliance} = results;
 			const pickPos = {0: 'C', 1: '1', 2: '2', 3: 'B'};
-			const elimFinish = {'ef': 'Eightfinalist', 'qf': 'Quarterfinalist', 'sf': 'Semifinalist', 'f': 'Finalist'}
+			// const elimFinish = {'ef': 'Eightfinalist', 'qf': 'Quarterfinalist', 'sf': 'Semifinalist', 'f': 'Finalist'}
 			let playoffResult = null;
-			if (playoff && playoff.status == 'won' && playoff.level=='f') {
+			if (playoff && playoff.status === 'won' && playoff.level === 'f') {
 				playoffResult = 'won'
 			}
 			else {
@@ -71,12 +69,12 @@ const EventSummary = ({eventKey, eventResults}) => {
 			if(playoff && alliance) {
 				return <div className={`event ${playoffResult}`} key={eventKey}><span className='content'>A{alliance.number}P{pickPos[alliance.pick]}</span></div>
 			} else if(playoff && !alliance) {
-				return <div className={`event ${playoffResult}`} key={eventKey}><span className='content'>Played</span></div>
+				return <div className={`event ${playoffResult}`} key={eventKey}><span className='content'>Played*</span></div>
 			} else {
 				return <div className='event np' key={eventKey}>NP</div>
 			}
 		}
-	return null;
+	return <div className='event placeholder' key={eventKey}>{eventKey} loading...</div>;
 
 }
 

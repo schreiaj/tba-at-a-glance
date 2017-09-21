@@ -14,12 +14,12 @@
 .won {
 	background-color: #5f50ff;
 	border: none;
-	color: white;
 }
 
 .f {
 	background-color: #ff7ffa;
 	border: none;
+	color: white;
 }
 
 .sf {
@@ -29,8 +29,13 @@
 
 .qf {
 	border: none;
+	color: white;
 	background-color: #ff964e;
 
+}
+
+.placeholder {
+	opacity: 10%
 }
 
 .content {
