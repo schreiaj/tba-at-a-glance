@@ -18,12 +18,25 @@ let HistorySummary = ({team, events, eventResults}) => {
 	let style = {display: 'grid', gridTemplateColumns: `${'1fr '.repeat(years.length)}`, gridColumnGap: '5px'};
 
 	return(
-		<div className='history-summary' style={style}>
-			{years.map((y) => {
-				return (<div className='year'key={y}>{y}
-					<YearSummary year={y} eventResults={eventResults} events={eventsByYear} />
-				</div>);
-			})}
+		<div className='history-summary'>
+			<div style={style}>
+				{years.map((y) => {
+					return (<div className='year'key={y}>{y}
+						<YearSummary year={y} eventResults={eventResults} events={eventsByYear} />
+					</div>);
+				})}
+			</div>
+			<div className='legend-holder'>
+				<span>NP</span><span className='legend np'/>
+				<span>QF</span><span className='legend qf'/>
+				<span>SF</span><span className='legend sf'/>
+				<span>F</span><span className='legend f'/>
+				<span>W</span><span className='legend won'/>
+				<div> *For events without selection data we merely note if a team played </div>
+
+			</div>
+
+
 		</div>
 	);
 }
@@ -46,21 +59,21 @@ const EventSummary = ({eventKey, eventResults}) => {
 	let results = eventResults[eventKey];
 		if(results) {
 			let {playoff, alliance} = results;
-			const pickPos = {0: 'Captain', 1: '1st Pick', 2: '2nd Pick', 3: '3rd Pick'};
-			const elimFinish = {'ef': 'Eightfinalist', 'qf': 'Quarterfinalist', 'sf': 'Semifinalist', 'f': 'Winner'}
+			const pickPos = {0: 'C', 1: '1', 2: '2', 3: 'B'};
+			const elimFinish = {'ef': 'Eightfinalist', 'qf': 'Quarterfinalist', 'sf': 'Semifinalist', 'f': 'Finalist'}
 			let playoffResult = null;
 			if (playoff && playoff.status == 'won' && playoff.level=='f') {
-				playoffResult = 'Winner'
+				playoffResult = 'won'
 			}
 			else {
-				playoffResult = elimFinish[(playoff||{}).level]
+				playoffResult = (playoff||{}).level
 			}
 			if(playoff && alliance) {
-				return <div className={`event`} key={eventKey}>{ordinal(alliance.number)} Alliance <br/> {pickPos[alliance.pick]}<br/>{playoffResult}</div>
+				return <div className={`event ${playoffResult}`} key={eventKey}><span className='content'>A{alliance.number}P{pickPos[alliance.pick]}</span></div>
 			} else if(playoff && !alliance) {
-				return <div className={`event`} key={eventKey}>Played<br/>-<br/>{playoffResult}</div>
+				return <div className={`event ${playoffResult}`} key={eventKey}><span className='content'>Played</span></div>
 			} else {
-				return <div className='event' key={eventKey}><br/>Not picked<br/></div>
+				return <div className='event np' key={eventKey}>NP</div>
 			}
 		}
 	return null;
