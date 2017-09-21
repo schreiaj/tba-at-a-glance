@@ -7,31 +7,31 @@
 }
 
 .np {
-	background-color: #ff77bb;
+	background-color: #d7191c;
 	color: white;
 }
 
 .won {
-	background-color: #84bbff;
+	background-color: #1a9641;
 	color: white;
 	border: none;
 }
 
 .f {
-	background-color: #b596ff;
+	background-color: #a6d96a;
 	border: none;
 	color: white;
 }
 
 .sf {
-	background-color: #ffd668;
+	background-color: #ffffbf;
 	border: none;
 }
 
 .qf {
 	border: none;
 	color: white;
-	background-color: #ff9263;
+	background-color: #fdae61;
 
 }
 
