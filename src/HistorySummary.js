@@ -9,7 +9,7 @@ let HistorySummary = ({team, events, eventResults}) => {
 	let years = Array.from(new Set(events.map((e) => new Date(e.start_date).getFullYear())))
 
 	let eventsByYear = nest().key((e) => new Date(e.start_date).getFullYear())
-		.sortKeys((e) => new Date(e.start_date))
+		// .sortKeys((a,b) => new Date(b.start_date) - new Date(a.start_date))
 		.object(events)
 	window.eventsByYear = eventsByYear;
 
@@ -41,12 +41,12 @@ let HistorySummary = ({team, events, eventResults}) => {
 
 const YearSummary = ({events, year, eventResults}) => {
 
-	let yearsEvents = events[year]
+	let yearsEvents = events[year].sort((a,b) => new Date(a.start_date) - new Date(b.start_date));
 	return (
 		<div key={year}>
 		{yearsEvents.map((e) => {
 					return (
-						<EventSummary eventKey={e.key} eventResults={eventResults} />
+						<EventSummary key={e.key} eventKey={e.key} eventResults={eventResults} />
 					);
 				})}
 		</div>
@@ -74,7 +74,7 @@ const EventSummary = ({eventKey, eventResults}) => {
 				return <div className='event np' key={eventKey}>NP</div>
 			}
 		}
-	return <div className='event placeholder' key={eventKey}>{eventKey} loading...</div>;
+	return <div className='event placeholder' key={eventKey}>loading...</div>;
 
 }
 
