@@ -2,6 +2,8 @@ import React from 'react';
 
 import {nest} from 'd3-collection';
 
+import ordinal from 'ordinal';
+
 import './HistorySummary.css';
 
 let HistorySummary = ({team, events, eventResults}) => {
@@ -18,7 +20,7 @@ let HistorySummary = ({team, events, eventResults}) => {
 	return(
 		<div className='history-summary' style={style}>
 			{years.map((y) => {
-				return (<div key={y}>{y}
+				return (<div className='year'key={y}>{y}
 					<YearSummary year={y} eventResults={eventResults} events={eventsByYear} />
 				</div>);
 			})}
@@ -30,7 +32,7 @@ const YearSummary = ({events, year, eventResults}) => {
 
 	let yearsEvents = events[year]
 	return (
-		<div> 
+		<div key={year}>
 		{yearsEvents.map((e) => {
 					return (
 						<EventSummary eventKey={e.key} eventResults={eventResults} />
@@ -42,18 +44,28 @@ const YearSummary = ({events, year, eventResults}) => {
 
 const EventSummary = ({eventKey, eventResults}) => {
 	let results = eventResults[eventKey];
-	console.log(results);
 		if(results) {
 			let {playoff, alliance} = results;
-			playoff = playoff || {};
-			alliance = alliance || {};
-			if(alliance.pick === 0) alliance.pick='C';
-
-			return <div key={eventKey} className={`${playoff.status} ${playoff.level}`} key={eventKey}>A{alliance.number||'?'} P{(alliance.pick)||'?'}</div>
+			const pickPos = {0: 'Captain', 1: '1st Pick', 2: '2nd Pick', 3: '3rd Pick'};
+			const elimFinish = {'ef': 'Eightfinalist', 'qf': 'Quarterfinalist', 'sf': 'Semifinalist', 'f': 'Winner'}
+			let playoffResult = null;
+			if (playoff && playoff.status == 'won' && playoff.level=='f') {
+				playoffResult = 'Winner'
+			}
+			else {
+				playoffResult = elimFinish[(playoff||{}).level]
+			}
+			if(playoff && alliance) {
+				return <div className={`event`} key={eventKey}>{ordinal(alliance.number)} Alliance <br/> {pickPos[alliance.pick]}<br/>{playoffResult}</div>
+			} else if(playoff && !alliance) {
+				return <div className={`event`} key={eventKey}>Played<br/>-<br/>{playoffResult}</div>
+			} else {
+				return <div className='event' key={eventKey}><br/>Not picked<br/></div>
+			}
 		}
 	return null;
 
 }
-	
+
 
 export default HistorySummary;

@@ -6,6 +6,7 @@
   "dependencies": {
     "d3-collection": "^1.0.4",
     "gh-pages": "^1.0.0",
+    "ordinal": "^1.0.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-scripts": "1.0.13"

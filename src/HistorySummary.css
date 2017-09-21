@@ -1,15 +1,16 @@
-.won {
-	background-color: green;
+.event {
+	min-height: 4em;
+	margin-top: .5em;
+	padding-top: .5em;
+	border-radius: 5px;
+	border: 1px black solid;
+	font-weight: 100;
 }
 
-.f.eliminated{
-	background-color: blue;
+.history-summary {
+	margin: 2em;
 }
 
-.sf {
-	background-color: yellow;
-}
-
-.qf {
-	background-color: orange;
+.year {
+	font-weight: bold;
 }
