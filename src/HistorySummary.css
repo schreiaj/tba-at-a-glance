@@ -6,21 +6,26 @@
 	font-weight: 300;
 }
 
+.label {
+	font-weight: bold;
+	text-align: right;
+}
+
 .np {
 	background-color: #d7191c;
 	color: white;
 }
 
 .won {
-	background-color: #1a9641;
+	background-color: #3f51b5;
 	color: white;
 	border: none;
 }
 
 .f {
-	background-color: #a6d96a;
+	background-color: #bdbdff;
 	border: none;
-	color: white;
+	color: black;
 }
 
 .sf {
