@@ -30,7 +30,7 @@ class App extends Component {
       let resultsRes = await fetch(`${Config.BASE_URL}/team/frc${team}/event/${e.key}/status`, {headers})
       let eventResults = await resultsRes.json();
       let allEventResults = this.state.eventResults;
-      allEventResults[e.key] = eventResults;
+      allEventResults[e.key] = {...e,...eventResults};
       this.setState({eventResults: allEventResults});
     })
     this.setState({events})

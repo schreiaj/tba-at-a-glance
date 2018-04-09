@@ -9,18 +9,18 @@ let HistorySummary = ({team, events, eventResults}) => {
 	let years = Array.from(new Set(events.map((e) => new Date(e.start_date).getFullYear())))
 
 	let eventsByYear = nest().key((e) => new Date(e.start_date).getFullYear())
-		.key((e) => {
-			switch (e.event_type) {
-			case 0:
-				return 1
-				break;
-			case 2:
-				return 2
-				break;
-			default:
-				return e.event_type
-			}
-		})
+		// .key((e) => {
+		// 	switch (e.event_type) {
+		// 	case 0:
+		// 		return 1
+		// 		break;
+		// 	case 2:
+		// 		return 2
+		// 		break;
+		// 	default:
+		// 		return e.event_type
+		// 	}
+		// })
 		.sortValues((a,b) => new Date(a.start_date) - new Date(b.start_date))
 		.object(events)
 	window.eventsByYear = eventsByYear;
@@ -64,17 +64,36 @@ const YearSummary = ({events, year, eventResults}) => {
 
 	let eventYear = events[year]||[];
 	let yearsEvents = []
-	yearsEvents.push((eventYear[1]||[]).pop());
-	yearsEvents.push((eventYear[1]||[]).pop());
-	if(eventYear[2]) {
-		yearsEvents.push((eventYear[2]||[]).pop());
-	} else {
-		yearsEvents.push((eventYear[1]||[]).pop());
-	}
-	yearsEvents.push((eventYear[3]||[]).pop());
-	yearsEvents.push((eventYear[4]||[]).pop());
-	yearsEvents.push((eventYear[6]||[]).pop());
 
+
+	yearsEvents = eventYear.slice(0,6);
+
+	if(yearsEvents.some(e => e.event_type === 1)){
+		yearsEvents = eventYear.filter(e => e.event_type === 1).slice(0,2);
+		yearsEvents = [...yearsEvents, ...eventYear.filter(e => e.event_type === 2).slice(0,1)];
+	}
+	else {
+		yearsEvents = eventYear.filter(e => e.event_type === 0).slice(0,3);
+	}
+	if(yearsEvents.length < 3 ) {
+		yearsEvents.push(null);
+	}
+	yearsEvents = [...yearsEvents, ...eventYear.filter(e => e.event_type === 3).slice(0,1)];
+	yearsEvents = [...yearsEvents, ...eventYear.filter(e => e.event_type === 4).slice(0,1)];
+	yearsEvents = [...yearsEvents, ...eventYear.filter(e => e.event_type === 6).slice(0,1)];
+	console.log(yearsEvents);
+
+
+	// yearsEvents.concat(eventYear[1].slice(0,2));
+	// console.log(eventYear[1].slice(0,2));
+	// if(eventYear[2]) {
+	// 	yearsEvents.concat(eventYear[2].slice(0,1));
+	// } else {
+	// 	yearsEvents.concat(eventYear[1].slice(0,1));
+	// }
+	// yearsEvents.concat(eventYear[3].slice(0,1));
+	// yearsEvents.concat(eventYear[4].slice(0,1));
+	// yearsEvents.concat(eventYear[6].slice(0,1));
 
 
 	return (
